@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bloom &amp; Bud · Women &amp; Kids Clothing</title>
+  <meta name="description" content="Breathable everyday clothing for women and kids aged 0–12, with matching Mini & Me sets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F5F1EA',
+            sand: '#EDE6DA',
+            stone: '#EBE6DF',
+            line: '#D9D0C0',
+            ink: '#1A1A1A',
+            muted: '#666666',
+            body: '#555555',
+            rust: '#9B3B2A'
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
+          letterSpacing: { label: '0.2em', btn: '0.14em' },
+          maxWidth: { site: '1360px' }
+        }
+      }
+    };
+  </script>
+  <style>
+    @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+    @keyframes kenburns { from { transform: scale(1.1) } to { transform: scale(1) } }
+    @keyframes fillbar { from { width: 0 } to { width: 100% } }
+    @keyframes fadeup { from { opacity: 0; transform: translateY(28px) } to { opacity: 1; transform: none } }
+
+    .marquee-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+    .marquee-track.fast { animation-duration: 28s; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+
+    .fade-up { animation: fadeup .9s cubic-bezier(.2,.7,.2,1) both; }
+
+    .slide { opacity: 0; transition: opacity 1.2s ease; }
+    .slide.is-active { opacity: 1; }
+    .slide.is-active img { animation: kenburns 6s ease-out both; }
+    .bar-fill { width: 0; }
+    .bar.is-active .bar-fill { animation: fillbar var(--slide-ms, 5000ms) linear forwards; }
+    .bar.is-done .bar-fill { width: 100%; }
+    .hero:hover .bar.is-active .bar-fill { animation-play-state: paused; }
+
+    .reveal { opacity: 0; transform: translateY(48px); transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    .zoom { overflow: hidden; }
+    .zoom img { transition: transform 1.1s cubic-bezier(.2,.7,.2,1); }
+    .zoom:hover img, .card:hover .zoom img { transform: scale(1.06); }
+
+    .arrow { display: inline-block; transition: transform .4s; }
+    a:hover .arrow, button:hover .arrow { transform: translateX(6px); }
+
+    .quick { opacity: 0; transform: translateY(12px); transition: opacity .35s, transform .35s, background .3s, color .3s; }
+    .card:hover .quick, .card:focus-within .quick { opacity: 1; transform: none; }
+    @media (hover: none) { .quick { opacity: 1; transform: none; } }
+
+    .ig::after { content: ""; position: absolute; inset: 0; background: rgba(26,26,26,0); transition: background .4s; }
+    .ig:hover::after { background: rgba(26,26,26,.28); }
+
+    .grid-fade { transition: opacity .35s ease; }
+    .grid-fade.is-hidden { opacity: 0; }
+
+    .heart.is-on svg { fill: #9B3B2A; stroke: #9B3B2A; }
+    .bump { animation: bump .4s ease; }
+    @keyframes bump { 50% { transform: scale(1.35) } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track, .fade-up, .slide.is-active img, .bar.is-active .bar-fill, .bump { animation: none !important; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .zoom img, .slide { transition: none; }
+    }
+  </style>
+</head>
+<body class="bg-cream text-ink font-sans antialiased overflow-x-hidden">
+
+  <!-- Announcement bar -->
+  <div class="marquee bg-ink text-cream text-xs uppercase tracking-[0.14em] py-[11px] overflow-hidden whitespace-nowrap">
+    <div class="marquee-track" data-repeat="4">
+      <span class="px-7">New autumn edit is here</span><span class="opacity-50" aria-hidden="true">✦</span>
+      <span class="px-7">Free shipping over ₹1,999</span><span class="opacity-50" aria-hidden="true">✦</span>
+      <span class="px-7">Easy 15-day returns</span><span class="opacity-50" aria-hidden="true">✦</span>
+      <span class="px-7">Mini &amp; Me matching sets</span><span class="opacity-50" aria-hidden="true">✦</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header id="siteHeader" class="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-line transition-shadow">
+    <div class="max-w-site mx-auto px-4 sm:px-8 lg:px-12 h-[72px] flex items-center justify-between gap-6">
+      <button id="menuOpen" class="lg:hidden -ml-2 w-11 h-11 inline-flex items-center justify-center" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+      </button>
+      <a href="#" class="font-serif text-[26px] sm:text-[30px] tracking-[0.04em] no-underline">BLOOM &amp; BUD</a>
+      <nav aria-label="Main" class="hidden lg:flex gap-8 text-[13px] font-medium uppercase tracking-btn">
+        <a href="#categories" class="hover:text-rust transition-colors">Women</a>
+        <a href="#categories" class="hover:text-rust transition-colors">Girls</a>
+        <a href="#categories" class="hover:text-rust transition-colors">Boys</a>
+        <a href="#categories" class="hover:text-rust transition-colors">Baby</a>
+        <a href="#minime" class="hover:text-rust transition-colors">Mini &amp; Me</a>
+        <a href="#bestsellers" class="text-rust hover:opacity-70 transition-opacity">Sale</a>
+      </nav>
+      <div class="flex items-center -mr-2">
+        <button class="hidden sm:inline-flex w-11 h-11 items-center justify-center hover:text-rust transition-colors" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </button>
+        <button class="hidden sm:inline-flex w-11 h-11 items-center justify-center hover:text-rust transition-colors" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </button>
+        <button class="relative w-11 h-11 inline-flex items-center justify-center hover:text-rust transition-colors" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+          <span id="wishCount" class="hidden absolute top-1.5 right-1 min-w-4 h-4 px-1 rounded-full bg-rust text-white text-[10px] font-semibold leading-4 text-center">0</span>
+        </button>
+        <button id="cartOpen" class="relative w-11 h-11 inline-flex items-center justify-center hover:text-rust transition-colors" aria-label="Open bag" aria-controls="cartDrawer" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span id="cartCount" class="absolute top-1.5 right-1 min-w-4 h-4 px-1 rounded-full bg-ink text-cream text-[10px] font-semibold leading-4 text-center">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="fixed inset-0 z-50 invisible" aria-hidden="true">
+    <div data-close-menu class="absolute inset-0 bg-ink/40 opacity-0 transition-opacity duration-300"></div>
+    <nav aria-label="Mobile" class="panel absolute inset-y-0 left-0 w-[86%] max-w-sm bg-cream -translate-x-full transition-transform duration-300 flex flex-col">
+      <div class="flex items-center justify-between px-5 h-[72px] border-b border-line">
+        <span class="font-serif text-2xl tracking-[0.04em]">BLOOM &amp; BUD</span>
+        <button data-close-menu class="w-11 h-11 inline-flex items-center justify-center" aria-label="Close menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="flex flex-col px-5 py-4 font-serif text-2xl">
+        <a data-close-menu href="#categories" class="py-3 border-b border-line">Women</a>
+        <a data-close-menu href="#categories" class="py-3 border-b border-line">Girls</a>
+        <a data-close-menu href="#categories" class="py-3 border-b border-line">Boys</a>
+        <a data-close-menu href="#categories" class="py-3 border-b border-line">Baby</a>
+        <a data-close-menu href="#minime" class="py-3 border-b border-line">Mini &amp; Me</a>
+        <a data-close-menu href="#bestsellers" class="py-3 text-rust">Sale</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero flex flex-wrap items-stretch border-b border-line">
+      <div class="flex-[1_1_440px] flex flex-col justify-center gap-6 px-4 sm:px-10 lg:px-20 py-12 lg:py-24">
+        <span class="fade-up text-xs font-semibold uppercase tracking-label text-muted">Bloom &amp; Bud · Women &amp; Kids Clothing</span>
+        <h1 class="fade-up [animation-delay:.12s] font-serif font-normal text-[42px] sm:text-6xl xl:text-[80px] leading-[1.04] tracking-[-0.01em]">Dressed for every little moment, <em>together.</em></h1>
+        <p class="fade-up [animation-delay:.24s] text-lg text-body max-w-[460px]">Breathable everyday clothing for women and kids aged 0–12, with matching Mini &amp; Me sets for the days you want to twin.</p>
+        <div class="fade-up [animation-delay:.36s] flex flex-wrap gap-3 mt-1">
+          <a href="#newin" class="inline-flex items-center gap-2.5 min-h-[52px] px-8 bg-ink text-cream text-[13px] font-semibold uppercase tracking-btn hover:-translate-y-0.5 transition-transform">Shop Women <span class="arrow" aria-hidden="true">→</span></a>
+          <a href="#bestsellers" class="inline-flex items-center gap-2.5 min-h-[52px] px-8 border border-ink text-[13px] font-semibold uppercase tracking-btn hover:bg-ink hover:text-cream transition-colors">Shop Kids <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <div id="heroSlider" class="relative flex-[1.15_1_480px] min-h-[460px] lg:min-h-[740px] overflow-hidden bg-stone" aria-roledescription="carousel" aria-label="Featured looks">
+        <div class="slide is-active absolute inset-0" aria-roledescription="slide" aria-label="1 of 3">
+          <img class="w-full h-full object-cover" alt="Mother kissing her daughter's cheek among white roses" src="https://images.unsplash.com/photo-1551498624-3712f8e41930?w=1400&h=1700&fit=crop&crop=faces,entropy&q=75&auto=format">
+        </div>
+        <div class="slide absolute inset-0" aria-roledescription="slide" aria-label="2 of 3">
+          <img class="w-full h-full object-cover" alt="Girl in a red ruffled dress with a flower crown" loading="lazy" src="https://images.unsplash.com/photo-1578897366846-358bb1c2412a?w=1400&h=1700&fit=crop&crop=faces,entropy&q=75&auto=format">
+        </div>
+        <div class="slide absolute inset-0" aria-roledescription="slide" aria-label="3 of 3">
+          <img class="w-full h-full object-cover" alt="Young boy hugging his mother" loading="lazy" src="https://images.unsplash.com/photo-1531984929664-2fb2be468d3e?w=1400&h=1700&fit=crop&crop=faces,entropy&q=75&auto=format">
+        </div>
+        <div class="absolute left-6 right-6 bottom-6 flex items-center gap-3">
+          <div class="flex-1 flex gap-2">
+            <button class="bar flex-1 h-6 flex items-center" aria-label="Show slide 1"><span class="block w-full h-[2px] bg-white/40"><span class="bar-fill block h-full bg-white"></span></span></button>
+            <button class="bar flex-1 h-6 flex items-center" aria-label="Show slide 2"><span class="block w-full h-[2px] bg-white/40"><span class="bar-fill block h-full bg-white"></span></span></button>
+            <button class="bar flex-1 h-6 flex items-center" aria-label="Show slide 3"><span class="block w-full h-[2px] bg-white/40"><span class="bar-fill block h-full bg-white"></span></span></button>
+          </div>
+          <button id="heroPrev" class="w-11 h-11 inline-flex items-center justify-center rounded-full bg-cream/90 hover:bg-cream transition-colors" aria-label="Previous slide">←</button>
+          <button id="heroNext" class="w-11 h-11 inline-flex items-center justify-center rounded-full bg-cream/90 hover:bg-cream transition-colors" aria-label="Next slide">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="marquee border-b border-line py-[18px] overflow-hidden whitespace-nowrap font-serif italic text-[22px]">
+      <div class="marquee-track fast" data-repeat="4">
+        <span class="px-8">Breathable cotton &amp; linen</span><span class="not-italic text-sm text-rust self-center" aria-hidden="true">✦</span>
+        <span class="px-8">Mini &amp; Me sets</span><span class="not-italic text-sm text-rust self-center" aria-hidden="true">✦</span>
+        <span class="px-8">Kids 0–12 years</span><span class="not-italic text-sm text-rust self-center" aria-hidden="true">✦</span>
+        <span class="px-8">Women XS–XXL</span><span class="not-italic text-sm text-rust self-center" aria-hidden="true">✦</span>
+        <span class="px-8">Gentle on little skin</span><span class="not-italic text-sm text-rust self-center" aria-hidden="true">✦</span>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <section id="categories" class="reveal max-w-site mx-auto px-4 sm:px-8 lg:px-12 pt-20 lg:pt-24 pb-10">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-8">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-label text-muted">Shop by category</span>
+          <h2 class="mt-2 font-serif font-normal text-[32px] lg:text-5xl leading-tight">Something for everyone</h2>
+        </div>
+        <a href="#newin" class="text-[13px] font-semibold uppercase tracking-btn">View all <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div id="categoryGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5"></div>
+    </section>
+
+    <!-- New in -->
+    <section id="newin" class="reveal max-w-site mx-auto px-4 sm:px-8 lg:px-12 py-14">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-8">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-label text-muted">New in</span>
+          <h2 class="mt-2 font-serif font-normal text-[32px] lg:text-5xl leading-tight">Latest drops</h2>
+        </div>
+        <a href="#bestsellers" class="text-[13px] font-semibold uppercase tracking-btn">View all <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div id="newInGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-5 gap-y-10"></div>
+    </section>
+
+    <!-- Story -->
+    <section class="reveal max-w-site mx-auto px-4 sm:px-8 lg:px-12 py-14">
+      <div class="flex flex-wrap items-center gap-10 lg:gap-24">
+        <div class="zoom flex-[1_1_380px] aspect-[9/11] bg-stone">
+          <img class="w-full h-full object-cover" loading="lazy" alt="Woman in a natural linen slip dress" src="https://images.unsplash.com/photo-1747396206869-75ea57b325ce?w=1000&h=1220&fit=crop&crop=faces,entropy&q=75&auto=format">
+        </div>
+        <div class="flex-[1_1_380px] flex flex-col gap-5">
+          <span class="text-xs font-semibold uppercase tracking-label text-muted">Our story</span>
+          <h2 class="font-serif font-normal text-[34px] lg:text-[54px] leading-[1.08]">Bloom &amp; Bud began at the school gate, not on a runway.</h2>
+          <p class="text-[17px] text-body max-w-[520px]">We wanted clothes that a mum could wear from breakfast to the office, and that her kids could climb trees in. So we made both, from the same soft fabrics, in colours that go together.</p>
+          <p class="font-serif italic text-2xl">Soft. Durable. Made to share.</p>
+          <a href="#" class="self-start inline-flex items-center gap-2.5 min-h-[52px] px-8 border border-ink text-[13px] font-semibold uppercase tracking-btn hover:bg-ink hover:text-cream transition-colors mt-1">Read our story <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mini & Me banner -->
+    <section id="minime" class="reveal py-14">
+      <div class="relative min-h-[440px] lg:min-h-[620px] flex items-center justify-center overflow-hidden bg-[#2A2724]">
+        <img id="parallaxImg" class="absolute inset-x-0 -top-[12%] w-full h-[124%] object-cover will-change-transform" loading="lazy" alt="Mother and child playing at the water's edge at sunset" src="https://images.unsplash.com/photo-1759559585493-8f3a10cec180?w=2000&h=1000&fit=crop&crop=entropy&q=75&auto=format">
+        <div class="absolute inset-0 bg-ink/40"></div>
+        <div class="relative text-center text-white px-6 py-12 flex flex-col items-center gap-5 max-w-3xl">
+          <span class="text-xs font-semibold uppercase tracking-[0.24em]">Mini &amp; Me</span>
+          <h2 class="font-serif font-normal text-[40px] lg:text-[72px] leading-[1.05]">Same print. <em>Two sizes of happy.</em></h2>
+          <p class="text-lg max-w-[520px]">Matching sets cut for women's sizes XS–XXL and kids' sizes 0–12 years.</p>
+          <a href="#bestsellers" class="inline-flex items-center gap-2.5 min-h-[52px] px-8 bg-cream text-ink text-[13px] font-semibold uppercase tracking-btn hover:-translate-y-0.5 transition-transform mt-2">Shop matching sets <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bestsellers -->
+    <section id="bestsellers" class="reveal max-w-site mx-auto px-4 sm:px-8 lg:px-12 py-14">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-label text-muted">Bestsellers</span>
+          <h2 class="mt-2 font-serif font-normal text-[32px] lg:text-5xl leading-tight">What families reorder</h2>
+        </div>
+        <div id="bestTabs" role="group" aria-label="Filter bestsellers" class="flex flex-wrap gap-2">
+          <button data-filter="all" aria-pressed="true" class="tab min-h-11 px-5 border text-xs font-semibold uppercase tracking-btn transition-colors">All</button>
+          <button data-filter="women" aria-pressed="false" class="tab min-h-11 px-5 border text-xs font-semibold uppercase tracking-btn transition-colors">Women</button>
+          <button data-filter="kids" aria-pressed="false" class="tab min-h-11 px-5 border text-xs font-semibold uppercase tracking-btn transition-colors">Kids</button>
+        </div>
+      </div>
+      <div id="bestGrid" class="grid-fade grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-5 gap-y-10"></div>
+    </section>
+
+    <!-- Features -->
+    <section class="reveal bg-sand mt-10">
+      <div class="max-w-site mx-auto px-4 sm:px-8 lg:px-12 py-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div class="flex flex-col gap-3">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14z"/><path d="M5 19l7-7"/></svg>
+          <h3 class="font-serif text-[22px]">Breathable fabrics</h3>
+          <p class="text-[15px] text-body">Cotton, linen and soft knits that are gentle on little skin.</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></svg>
+          <h3 class="font-serif text-[22px]">Sizing made easy</h3>
+          <p class="text-[15px] text-body">Kids' sizes by age and height, women's XS–XXL with a fit guide on every product.</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4h4"/></svg>
+          <h3 class="font-serif text-[22px]">Easy returns</h3>
+          <p class="text-[15px] text-body">Changed your mind or outgrew it already? Return within 15 days.</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg>
+          <h3 class="font-serif text-[22px]">Fast delivery</h3>
+          <p class="text-[15px] text-body">Free shipping on orders over ₹1,999, with cash on delivery available.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reveal pt-24 pb-14">
+      <div class="max-w-site mx-auto px-4 sm:px-8 lg:px-12 text-center mb-8">
+        <span class="text-xs font-semibold uppercase tracking-label text-muted">In their words</span>
+        <h2 class="mt-2 font-serif font-normal text-[32px] lg:text-5xl leading-tight">Loved by mums and minis</h2>
+      </div>
+      <div class="marquee overflow-hidden">
+        <div id="reviewTrack" class="marquee-track gap-5 px-2.5"></div>
+      </div>
+    </section>
+
+    <!-- Instagram -->
+    <section class="reveal max-w-site mx-auto px-4 sm:px-8 lg:px-12 pt-14 pb-24">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-label text-muted">@bloomandbud</span>
+          <h2 class="mt-2 font-serif font-normal text-[32px] lg:text-5xl leading-tight">Little moments, shared</h2>
+        </div>
+        <a href="#" class="inline-flex items-center gap-2.5 min-h-12 px-6 border border-ink text-xs font-semibold uppercase tracking-btn hover:bg-ink hover:text-cream transition-colors">Follow us on Instagram</a>
+      </div>
+      <div id="igGrid" class="grid grid-cols-3 lg:grid-cols-6 gap-2.5"></div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="bg-ink text-cream">
+      <div class="max-w-site mx-auto px-4 sm:px-8 lg:px-12 py-16 flex flex-wrap items-center justify-between gap-7">
+        <div class="flex-[1_1_380px]">
+          <h2 class="font-serif font-normal text-[30px] lg:text-[42px] leading-[1.15]">Join the family, get 10% off your first order</h2>
+          <p class="mt-2.5 text-[#CFC6B8]">New drops, restocks and sizing tips. No spam.</p>
+        </div>
+        <form id="newsletter" class="flex-[1_1_380px] flex flex-wrap gap-2.5" novalidate>
+          <label for="newsEmail" class="sr-only">Email address</label>
+          <input id="newsEmail" type="email" required placeholder="Your email address" class="flex-[1_1_240px] min-h-[52px] px-[18px] border border-[#5A554F] bg-transparent text-cream placeholder:text-[#9C9489] focus:outline-none focus:border-cream">
+          <button class="min-h-[52px] px-8 bg-cream text-ink text-[13px] font-semibold uppercase tracking-btn hover:-translate-y-0.5 transition-transform">Subscribe</button>
+          <p id="newsMsg" class="basis-full text-sm min-h-5" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-line">
+    <div class="max-w-site mx-auto px-4 sm:px-8 lg:px-12 pt-16 pb-10 flex flex-wrap gap-x-16 gap-y-10">
+      <div class="flex-[1_1_280px] flex flex-col gap-3.5">
+        <span class="font-serif text-[28px] tracking-[0.04em]">BLOOM &amp; BUD</span>
+        <p class="text-[15px] text-body max-w-[300px]">Everyday clothing for women and kids, made to be worn, washed and shared.</p>
+        <div class="flex gap-1.5">
+          <a href="#" aria-label="Instagram" class="w-11 h-11 inline-flex items-center justify-center border border-line rounded-full hover:bg-ink hover:text-cream transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6"/></svg></a>
+          <a href="#" aria-label="Facebook" class="w-11 h-11 inline-flex items-center justify-center border border-line rounded-full hover:bg-ink hover:text-cream transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h2.5l.5-4h-3V7a1 1 0 0 1 1-1h2z"/></svg></a>
+          <a href="#" aria-label="Pinterest" class="w-11 h-11 inline-flex items-center justify-center border border-line rounded-full hover:bg-ink hover:text-cream transition-colors"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10.5 8.5c2-1 5 0 4.5 3s-3 3-3.5 1.5M11.5 11l-2 10"/></svg></a>
+        </div>
+      </div>
+      <nav aria-label="Shop" class="flex-[0_1_170px] flex flex-col gap-2.5 text-[15px]">
+        <span class="text-xs font-semibold uppercase tracking-[0.18em] mb-1">Shop</span>
+        <a href="#categories" class="hover:text-rust">Women</a><a href="#categories" class="hover:text-rust">Girls</a><a href="#categories" class="hover:text-rust">Boys</a><a href="#categories" class="hover:text-rust">Baby</a><a href="#minime" class="hover:text-rust">Mini &amp; Me</a><a href="#newin" class="hover:text-rust">New arrivals</a>
+      </nav>
+      <nav aria-label="About" class="flex-[0_1_170px] flex flex-col gap-2.5 text-[15px]">
+        <span class="text-xs font-semibold uppercase tracking-[0.18em] mb-1">About</span>
+        <a href="#" class="hover:text-rust">Our story</a><a href="#" class="hover:text-rust">Fabrics &amp; care</a><a href="#" class="hover:text-rust">Journal</a><a href="#" class="hover:text-rust">Careers</a>
+      </nav>
+      <nav aria-label="Help" class="flex-[0_1_170px] flex flex-col gap-2.5 text-[15px]">
+        <span class="text-xs font-semibold uppercase tracking-[0.18em] mb-1">Help</span>
+        <a href="#" class="hover:text-rust">Size guide</a><a href="#" class="hover:text-rust">Shipping &amp; delivery</a><a href="#" class="hover:text-rust">Returns</a><a href="#" class="hover:text-rust">Track order</a><a href="#" class="hover:text-rust">FAQs</a><a href="#" class="hover:text-rust">Contact</a>
+      </nav>
+    </div>
+    <div class="max-w-site mx-auto px-4 sm:px-8 lg:px-12 pt-5 pb-8 border-t border-line flex flex-wrap items-center justify-between gap-4 text-[13px] text-muted">
+      <span>© 2026 Bloom &amp; Bud · Demo store · Photos from Unsplash</span>
+      <div class="flex flex-wrap gap-2 text-[11px] font-semibold tracking-[0.08em] text-ink">
+        <span class="px-2.5 py-1 border border-line">VISA</span><span class="px-2.5 py-1 border border-line">MASTERCARD</span><span class="px-2.5 py-1 border border-line">UPI</span><span class="px-2.5 py-1 border border-line">RUPAY</span><span class="px-2.5 py-1 border border-line">COD</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart drawer -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 invisible" aria-hidden="true">
+    <div data-close-cart class="absolute inset-0 bg-ink/40 opacity-0 transition-opacity duration-300"></div>
+    <aside class="panel absolute inset-y-0 right-0 w-full max-w-md bg-cream translate-x-full transition-transform duration-300 flex flex-col" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+      <div class="flex items-center justify-between px-6 h-[72px] border-b border-line">
+        <h2 id="cartTitle" class="font-serif text-2xl">Your bag</h2>
+        <button data-close-cart class="w-11 h-11 inline-flex items-center justify-center" aria-label="Close bag">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div id="shipBar" class="px-6 py-4 border-b border-line text-sm"></div>
+      <ul id="cartItems" class="flex-1 overflow-y-auto px-6 divide-y divide-line"></ul>
+      <div class="px-6 py-5 border-t border-line flex flex-col gap-4">
+        <div class="flex justify-between text-base"><span>Subtotal</span><span id="cartSubtotal" class="font-semibold">₹0</span></div>
+        <button class="min-h-[52px] bg-ink text-cream text-[13px] font-semibold uppercase tracking-btn hover:opacity-90 transition-opacity">Checkout</button>
+        <p class="text-xs text-muted text-center">Demo store: checkout is disabled.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed left-1/2 bottom-6 z-[60] -translate-x-1/2 translate-y-24 opacity-0 transition-all duration-300 bg-ink text-cream text-sm px-5 py-3 shadow-lg" role="status" aria-live="polite"></div>
+
+  <!-- Back to top -->
+  <button id="toTop" class="fixed right-5 bottom-5 z-30 w-12 h-12 rounded-full bg-ink text-cream opacity-0 pointer-events-none translate-y-3 transition-all duration-300" aria-label="Back to top">↑</button>
+
+  <script>
+    (function () {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const img = (id, w, h) => `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&crop=faces,entropy&q=75&auto=format`;
+      const rupee = (n) => '₹' + n.toLocaleString('en-IN');
+
+      /* ---------- Data ---------- */
+      const categories = [
+        { label: 'Women', id: 'photo-1764298493197-a1c1cce57800', alt: 'Woman in a long natural linen dress' },
+        { label: 'Girls 2–12', id: 'photo-1611003967145-fb3960072424', alt: 'Girl in a yellow dress jumping for joy' },
+        { label: 'Boys 2–12', id: 'photo-1519238263530-99bdd11df2ea', alt: 'Smiling boy in a navy cardigan and bow tie' },
+        { label: 'Baby 0–24m', id: 'photo-1522771930-78848d9293e8', alt: 'Baby in a soft brown teddy suit' }
+      ];
+
+      const products = [
+        { sku: 'p1', name: 'Olive Rope-Belt Midi Dress', cat: 'Women', group: 'women', price: 2499, was: 2999, badge: 'New', list: 'new', id: 'photo-1789110853844-d1a86b2c5b9b' },
+        { sku: 'p2', name: 'Mustard Chunky Knit Cardigan', cat: 'Women', group: 'women', price: 2799, badge: 'New', list: 'new', id: 'photo-1610288311735-39b7facbd095' },
+        { sku: 'p3', name: "Girls' Zigzag Sundress", cat: 'Girls · 2–12 yrs', group: 'kids', price: 1299, was: 1499, badge: 'Mini & Me', list: 'new', id: 'photo-1599624427857-461fd60c23e5' },
+        { sku: 'p4', name: "Boys' Printed Cotton Tee", cat: 'Boys · 2–12 yrs', group: 'kids', price: 699, list: 'new', id: 'photo-1785828642909-676851fe3db2' },
+        { sku: 'p5', name: 'Terracotta Tie-Waist Shirt Dress', cat: 'Women', group: 'women', price: 2299, badge: 'Bestseller', list: 'best', id: 'photo-1789110853872-f416085557fa' },
+        { sku: 'p6', name: 'Floral Strappy Midi Dress', cat: 'Women', group: 'women', price: 2699, was: 3199, badge: 'Sale', list: 'best', id: 'photo-1762154057377-cc9d3dd6900c' },
+        { sku: 'p7', name: "Girls' Print Puff-Sleeve Dress", cat: 'Girls · 2–12 yrs', group: 'kids', price: 1199, badge: 'Bestseller', list: 'best', id: 'photo-1621163327889-581607524821' },
+        { sku: 'p8', name: "Boys' Cotton Bomber Jacket", cat: 'Boys · 2–12 yrs', group: 'kids', price: 1899, list: 'best', id: 'photo-1758782213532-bbb5fd89885e' },
+        { sku: 'p9', name: 'Sage Linen Strappy Dress', cat: 'Women', group: 'women', price: 2199, badge: 'Mini & Me', list: 'extra', id: 'photo-1789110519607-6176d668fb72' },
+        { sku: 'p10', name: "Girls' Ruffle Party Dress", cat: 'Girls · 2–12 yrs', group: 'kids', price: 1599, was: 1899, badge: 'Sale', list: 'extra', id: 'photo-1578897367107-2828e351c8a8' }
+      ];
+
+      const reviews = [
+        { quote: 'The linen dress softened beautifully after one wash. My daughter has the matching one.', who: 'Sample review · Women' },
+        { quote: 'Sizes by height made ordering for my twins so simple. Both fit perfectly.', who: 'Sample review · Kids' },
+        { quote: 'Survived the park, the paint and the washing machine. Still looks new.', who: 'Sample review · Boys' },
+        { quote: 'Finally a cardigan that is cosy without being itchy. I bought it in two colours.', who: 'Sample review · Women' },
+        { quote: 'Our Mini & Me set was the hit of the family photos this year.', who: 'Sample review · Mini & Me' }
+      ];
+
+      const insta = [
+        { id: 'photo-1590480598135-3be152c87913', alt: 'Girl in a fruit-print sundress and sun hat' },
+        { id: 'photo-1578897367107-2828e351c8a8', alt: 'Girl in a red dress and flower crown' },
+        { id: 'photo-1789110519607-6176d668fb72', alt: 'Sage green strappy dress' },
+        { id: 'photo-1569974641446-22542de88536', alt: 'Baby clothes hanging on a rail' },
+        { id: 'photo-1789145508216-ade0a26d518a', alt: 'Off-shoulder beige dress by the sea' },
+        { id: 'photo-1556905055-8f358a7a47b2', alt: 'Cosy knit and denim flat lay' }
+      ];
+
+      const badgeStyle = {
+        'New': 'bg-white text-ink',
+        'Bestseller': 'bg-ink text-cream',
+        'Sale': 'bg-rust text-white',
+        'Mini & Me': 'bg-cream text-ink'
+      };
+
+      /* ---------- Render ---------- */
+      document.getElementById('categoryGrid').innerHTML = categories.map((c) => `
+        <a href="#newin" class="zoom relative block aspect-[7/9] bg-stone">
+          <img class="w-full h-full object-cover" loading="lazy" alt="${c.alt}" src="${img(c.id, 700, 900)}">
+          <span class="absolute left-2 right-2 bottom-2 sm:left-4 sm:right-4 sm:bottom-4 flex items-center justify-between px-3 sm:px-[18px] py-3 sm:py-3.5 bg-cream text-[11px] sm:text-[13px] font-semibold uppercase tracking-btn">${c.label} <span class="arrow" aria-hidden="true">→</span></span>
+        </a>`).join('');
+
+      const wish = new Set();
+      const card = (p) => `
+        <div class="card flex flex-col gap-2.5">
+          <div class="relative">
+            <a href="#" class="zoom block aspect-[3/4] bg-stone">
+              <img class="w-full h-full object-cover" loading="lazy" alt="${p.name}" src="${img(p.id, 700, 933)}">
+            </a>
+            ${p.badge ? `<span class="absolute top-3 left-3 text-[10px] font-semibold uppercase tracking-[0.16em] px-2.5 py-1.5 ${badgeStyle[p.badge]}">${p.badge}</span>` : ''}
+            <button data-wish="${p.sku}" class="heart ${wish.has(p.sku) ? 'is-on' : ''} absolute top-1.5 right-1.5 w-11 h-11 inline-flex items-center justify-center" aria-label="Add ${p.name} to wishlist" aria-pressed="${wish.has(p.sku)}">
+              <span class="w-[34px] h-[34px] rounded-full bg-cream/90 inline-flex items-center justify-center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
+            </button>
+            <button data-add="${p.sku}" class="quick absolute left-3 right-3 bottom-3 min-h-[46px] bg-cream text-ink hover:bg-ink hover:text-cream text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em]">Add to bag</button>
+          </div>
+          <span class="text-[11px] uppercase tracking-[0.16em] text-muted">${p.cat}</span>
+          <a href="#" class="font-serif text-[17px] sm:text-[19px] leading-tight hover:text-rust transition-colors">${p.name}</a>
+          <div class="flex items-baseline gap-2.5 text-[15px]">
+            <span class="font-semibold ${p.was ? 'text-rust' : ''}">${rupee(p.price)}</span>
+            ${p.was ? `<s class="text-muted text-sm">${rupee(p.was)}</s>` : ''}
+          </div>
+        </div>`;
+
+      document.getElementById('newInGrid').innerHTML = products.filter((p) => p.list === 'new').map(card).join('');
+
+      const bestGrid = document.getElementById('bestGrid');
+      let currentFilter = 'all';
+      const renderBest = () => {
+        const pool = products.filter((p) => p.list !== 'new');
+        const items = currentFilter === 'all' ? pool.filter((p) => p.list === 'best') : pool.filter((p) => p.group === currentFilter);
+        bestGrid.innerHTML = items.slice(0, 4).map(card).join('');
+      };
+      renderBest();
+
+      const tabs = document.querySelectorAll('#bestTabs .tab');
+      const paintTabs = () => tabs.forEach((t) => {
+        const on = t.dataset.filter === currentFilter;
+        t.setAttribute('aria-pressed', on);
+        t.className = 'tab min-h-11 px-5 border text-xs font-semibold uppercase tracking-btn transition-colors ' +
+          (on ? 'bg-ink text-cream border-ink' : 'bg-transparent text-ink border-line hover:border-ink');
+      });
+      paintTabs();
+      tabs.forEach((t) => t.addEventListener('click', () => {
+        if (t.dataset.filter === currentFilter) return;
+        currentFilter = t.dataset.filter;
+        paintTabs();
+        bestGrid.classList.add('is-hidden');
+        setTimeout(() => { renderBest(); bestGrid.classList.remove('is-hidden'); }, reduceMotion ? 0 : 300);
+      }));
+
+      const reviewCard = (r) => `
+        <figure class="m-0 w-[300px] sm:w-[340px] flex-none bg-white border border-[#E0D7CA] p-7 flex flex-col gap-3.5 whitespace-normal">
+          <span class="tracking-[3px] text-sm" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote class="m-0 font-serif text-lg leading-snug">“${r.quote}”</blockquote>
+          <figcaption class="text-xs uppercase tracking-btn text-muted">${r.who}</figcaption>
+        </figure>`;
+      document.getElementById('reviewTrack').innerHTML = reviews.concat(reviews).map(reviewCard).join('');
+
+      document.getElementById('igGrid').innerHTML = insta.map((g) => `
+        <a href="#" class="ig zoom relative block aspect-square bg-stone">
+          <img class="w-full h-full object-cover" loading="lazy" alt="${g.alt}" src="${img(g.id, 500, 500)}">
+        </a>`).join('');
+
+      // Duplicate static marquee content so the loop is seamless
+      document.querySelectorAll('.marquee-track[data-repeat]').forEach((track) => {
+        const html = track.innerHTML;
+        track.innerHTML = html.repeat(Number(track.dataset.repeat));
+        [...track.children].slice(track.children.length / Number(track.dataset.repeat)).forEach((el) => el.setAttribute('aria-hidden', 'true'));
+      });
+
+      /* ---------- Toast ---------- */
+      const toast = document.getElementById('toast');
+      let toastTimer;
+      const showToast = (msg) => {
+        toast.textContent = msg;
+        toast.classList.remove('translate-y-24', 'opacity-0');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 2400);
+      };
+      const bump = (el) => { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); };
+
+      /* ---------- Cart ---------- */
+      const FREE_SHIP = 1999;
+      const cart = new Map();
+      const cartCount = document.getElementById('cartCount');
+      const renderCart = () => {
+        let qty = 0, subtotal = 0;
+        cart.forEach((q, sku) => { const p = products.find((x) => x.sku === sku); qty += q; subtotal += q * p.price; });
+        cartCount.textContent = qty;
+        document.getElementById('cartSubtotal').textContent = rupee(subtotal);
+        const left = FREE_SHIP - subtotal;
+        const pct = Math.min(100, Math.round((subtotal / FREE_SHIP) * 100));
+        document.getElementById('shipBar').innerHTML = `
+          <p class="mb-2">${left > 0 ? `You're <strong>${rupee(left)}</strong> away from free shipping` : '<strong>You’ve unlocked free shipping!</strong>'}</p>
+          <div class="h-1 bg-line"><div class="h-full bg-ink transition-all duration-500" style="width:${pct}%"></div></div>`;
+        const list = document.getElementById('cartItems');
+        if (!cart.size) {
+          list.innerHTML = '<li class="py-16 text-center text-muted">Your bag is empty.</li>';
+          return;
+        }
+        list.innerHTML = [...cart].map(([sku, q]) => {
+          const p = products.find((x) => x.sku === sku);
+          return `
+            <li class="py-5 flex gap-4">
+              <img class="w-20 h-[106px] object-cover bg-stone flex-none" alt="" src="${img(p.id, 160, 212)}">
+              <div class="flex-1 min-w-0 flex flex-col gap-1">
+                <span class="font-serif text-[17px] leading-tight">${p.name}</span>
+                <span class="text-xs uppercase tracking-[0.14em] text-muted">${p.cat}</span>
+                <div class="mt-auto flex items-center justify-between gap-3">
+                  <div class="inline-flex items-center border border-line" role="group" aria-label="Quantity for ${p.name}">
+                    <button data-dec="${sku}" class="w-9 h-9" aria-label="Decrease quantity">−</button>
+                    <span class="w-7 text-center text-sm font-semibold">${q}</span>
+                    <button data-inc="${sku}" class="w-9 h-9" aria-label="Increase quantity">+</button>
+                  </div>
+                  <span class="font-semibold">${rupee(p.price * q)}</span>
+                </div>
+              </div>
+              <button data-remove="${sku}" class="self-start w-9 h-9 -mr-2 text-muted hover:text-ink" aria-label="Remove ${p.name}">✕</button>
+            </li>`;
+        }).join('');
+      };
+
+      /* ---------- Drawers ---------- */
+      const setupDrawer = (root, openBtn, closeSel, side) => {
+        const overlay = root.querySelector(':scope > div');
+        const panel = root.querySelector('.panel');
+        const hidden = side === 'right' ? 'translate-x-full' : '-translate-x-full';
+        const open = () => {
+          root.classList.remove('invisible');
+          root.setAttribute('aria-hidden', 'false');
+          openBtn.setAttribute('aria-expanded', 'true');
+          requestAnimationFrame(() => { overlay.classList.remove('opacity-0'); panel.classList.remove(hidden); });
+          document.body.style.overflow = 'hidden';
+          setTimeout(() => panel.querySelector('button')?.focus(), 50);
+        };
+        const close = () => {
+          overlay.classList.add('opacity-0');
+          panel.classList.add(hidden);
+          root.setAttribute('aria-hidden', 'true');
+          openBtn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+          setTimeout(() => root.classList.add('invisible'), 300);
+        };
+        openBtn.addEventListener('click', open);
+        root.addEventListener('click', (e) => { if (e.target.closest(closeSel)) close(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.getAttribute('aria-hidden') === 'false') close(); });
+        return { open, close };
+      };
+      const cartDrawer = setupDrawer(document.getElementById('cartDrawer'), document.getElementById('cartOpen'), '[data-close-cart]', 'right');
+      setupDrawer(document.getElementById('mobileMenu'), document.getElementById('menuOpen'), '[data-close-menu]', 'left');
+
+      document.addEventListener('click', (e) => {
+        const add = e.target.closest('[data-add]');
+        if (add) {
+          const sku = add.dataset.add;
+          cart.set(sku, (cart.get(sku) || 0) + 1);
+          renderCart();
+          bump(cartCount);
+          const p = products.find((x) => x.sku === sku);
+          add.textContent = 'Added ✓';
+          setTimeout(() => { add.textContent = 'Add to bag'; }, 1400);
+          showToast(`${p.name} added to your bag`);
+          setTimeout(cartDrawer.open, 450);
+          return;
+        }
+        const w = e.target.closest('[data-wish]');
+        if (w) {
+          const sku = w.dataset.wish;
+          wish.has(sku) ? wish.delete(sku) : wish.add(sku);
+          document.querySelectorAll(`[data-wish="${sku}"]`).forEach((b) => { b.classList.toggle('is-on', wish.has(sku)); b.setAttribute('aria-pressed', wish.has(sku)); });
+          const wc = document.getElementById('wishCount');
+          wc.textContent = wish.size;
+          wc.classList.toggle('hidden', wish.size === 0);
+          bump(w);
+          showToast(wish.has(sku) ? 'Saved to your wishlist' : 'Removed from your wishlist');
+          return;
+        }
+        const inc = e.target.closest('[data-inc]'), dec = e.target.closest('[data-dec]'), rm = e.target.closest('[data-remove]');
+        if (inc) { cart.set(inc.dataset.inc, cart.get(inc.dataset.inc) + 1); renderCart(); }
+        if (dec) { const s = dec.dataset.dec, q = cart.get(s) - 1; q > 0 ? cart.set(s, q) : cart.delete(s); renderCart(); }
+        if (rm) { cart.delete(rm.dataset.remove); renderCart(); }
+      });
+      renderCart();
+
+      /* ---------- Hero slider ---------- */
+      const SLIDE_MS = 5000;
+      const slider = document.getElementById('heroSlider');
+      slider.style.setProperty('--slide-ms', SLIDE_MS + 'ms');
+      const slides = slider.querySelectorAll('.slide');
+      const bars = slider.querySelectorAll('.bar');
+      let current = 0, timer, paused = false, remaining = SLIDE_MS, startedAt;
+      const go = (i) => {
+        current = (i + slides.length) % slides.length;
+        slides.forEach((s, k) => s.classList.toggle('is-active', k === current));
+        bars.forEach((b, k) => {
+          b.classList.remove('is-active', 'is-done');
+          void b.offsetWidth;
+          if (k < current) b.classList.add('is-done');
+          if (k === current) b.classList.add('is-active');
+        });
+        remaining = SLIDE_MS;
+        schedule();
+      };
+      const schedule = () => {
+        clearTimeout(timer);
+        if (reduceMotion || paused) return;
+        startedAt = Date.now();
+        timer = setTimeout(() => go(current + 1), remaining);
+      };
+      bars.forEach((b, k) => b.addEventListener('click', () => go(k)));
+      document.getElementById('heroPrev').addEventListener('click', () => go(current - 1));
+      document.getElementById('heroNext').addEventListener('click', () => go(current + 1));
+      slider.addEventListener('mouseenter', () => { paused = true; clearTimeout(timer); remaining -= Date.now() - startedAt; });
+      slider.addEventListener('mouseleave', () => { paused = false; schedule(); });
+      let touchX = null;
+      slider.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+      slider.addEventListener('touchend', (e) => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
+        touchX = null;
+      });
+      go(0);
+
+      /* ---------- Scroll effects ---------- */
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+          if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+        }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+      }
+
+      const header = document.getElementById('siteHeader');
+      const toTop = document.getElementById('toTop');
+      const parallax = document.getElementById('parallaxImg');
+      let ticking = false;
+      const onScroll = () => {
+        const y = window.scrollY;
+        header.classList.toggle('shadow-[0_8px_24px_rgba(26,26,26,0.06)]', y > 10);
+        const showTop = y > 900;
+        toTop.classList.toggle('opacity-0', !showTop);
+        toTop.classList.toggle('pointer-events-none', !showTop);
+        toTop.classList.toggle('translate-y-3', !showTop);
+        if (!reduceMotion && parallax) {
+          const r = parallax.parentElement.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) {
+            const progress = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+            parallax.style.transform = `translateY(${progress * -60}px)`;
+          }
+        }
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(onScroll); ticking = true; } }, { passive: true });
+      onScroll();
+      toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+      /* ---------- Newsletter ---------- */
+      document.getElementById('newsletter').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('newsEmail');
+        const msg = document.getElementById('newsMsg');
+        if (!input.checkValidity() || !input.value) {
+          msg.textContent = 'Please enter a valid email address.';
+          msg.className = 'basis-full text-sm min-h-5 text-[#F0A99B]';
+          input.focus();
+          return;
+        }
+        msg.textContent = 'Thank you! Your 10% code is on its way: WELCOME10';
+        msg.className = 'basis-full text-sm min-h-5 text-cream';
+        input.value = '';
+      });
+    })();
+  </script>
+</body>
+</html>
